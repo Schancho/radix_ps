@@ -1,16 +1,14 @@
-CC = gcc -g3 -fsanitize=address
-FLAGS = -Wall -Wextra -Werror
-SRC = pushswap.c
-NAME = pushswap
+CC  =	gcc -g3 -fsanitize=address
+FLAGS   =   -Wall -Wextra -Werror
+SRC =   pushswap.c
+NAME    =   push_swap
 
-all : $(NAME)
-
-$(NAME) : $(SRC)
-		$(CC) -o $(NAME) $(SRC)
+all: $(NAME)
+$(NAME): $(SRC)
+	$(CC) $(SRC) -o $(NAME)
 clean:
-	@echo "there is no object files"
+	rm -rf *.o
+fclean: clean
+	@rm push_swap
 
-fclean:clean
-	@rm pushswap
-
-re:fclean all
+re: fclean all

@@ -12,51 +12,51 @@ int     *file_tab(int *t, char **av)
     }
     return (t);
 }
-void	ft_putchar(char c)
+
+void    ft_putchar(char c)
 {
-	write (1, &c, 1);
+    write(1, &c, 1);
 }
 
-void	ft_putstr(char *str)
+void    ft_putstr(char *str)
 {
-	int i;
+    int i;
 
-	i = 0;
-
-	while (str[i])
-	{
-		ft_putchar(str[i]);
-		i += 1;
-	}
+    i = 0;
+    while(str[i])
+    {
+        ft_putchar(str[i]);
+        i += 1;
+    }
 }
 
 int     is_digit(char *str)
 {
     int i;
 
-    i = 0;   
-
-    if(str[i]== '-' || str[i] == '+')
+    i = 0;
+    if(str[i] == '-' || str[i] == '+')
         i++;
     while(str[i])
     {
         if(!(str[i] >= '0' && str[i] <= '9'))
         {
-            ft_putstr("INVALID arguments\n");
+            ft_putstr("INVALID ARGUMENTS\n");
             exit(1);
         }
         i++;
     }
-    return(1);
+    return (1);
 }
-int    valid_parse(char **str)
+
+int     valid_parse(char **str)
 {
     int i;
 
     i = 1;
     while(str[i] && is_digit(str[i]))
         i++;
-    return(i-1);
+    return (i - 1);
 }
 
 int     *indexxx(int *t, int size)
@@ -72,7 +72,7 @@ int     *indexxx(int *t, int size)
     j = 0;
     s = 0;
     min = -2147483648;
-    tab = malloc(sizeof(int) *size);
+    tab = malloc(sizeof(int)*size);
     while(i < size)
     {
         j = 0;
@@ -89,23 +89,23 @@ int     *indexxx(int *t, int size)
         //printf("%d\n", max);
         tab[s] = i;
         min = max;
-        i++;
+        i++;    
     }
     return(tab);
 }
 
-t_op    *addop(t_op *queue, char *str)
+t_op        *addop(t_op *queue, char *str)
 {
-    t_op *new;
-    t_op *tmp;
+    t_op    *new;
+    t_op    *tmp;
 
     new = (t_op*)malloc(sizeof(t_op));
     if (new)
     {
         new->next = NULL;
-        new->oper    = str;
-        if (queue == NULL)
-            return new;
+        new->oper = str;
+        if(queue == NULL)
+            return(new);
         else
         {
             tmp = queue;
@@ -114,10 +114,10 @@ t_op    *addop(t_op *queue, char *str)
             tmp->next = new;
         }
     }
-    return (queue);
+    return(queue);
 }
 
-t_stack      *ft_push(t_stack *pile, int data)
+t_stack     *ft_push(t_stack *pile, int data)
 {
     t_stack *new;
 
@@ -126,23 +126,23 @@ t_stack      *ft_push(t_stack *pile, int data)
     {
         new->val = data;
         new->next = pile;
-        return new;
+        return (new);
     }
-    return NULL;
+    return (NULL);
 }
 
-t_stack  *rotate_ab(t_stack *p)
+t_stack     *rotate_ab(t_stack *p)
 {
-    t_stack  *tmp;
-    t_stack  *new;
+    t_stack *tmp;
+    t_stack *new;
     int     val;
 
     val = p->val;
     p = p->next;
-    
+
     tmp = p;
-    new = (t_stack*)malloc(sizeof (t_stack)); 
-    if (new)
+    new = (t_stack*)malloc(sizeof(t_stack));
+    if(new)
     {
         new->next = NULL;
         new->val = val;
@@ -152,17 +152,17 @@ t_stack  *rotate_ab(t_stack *p)
         }
         p->next = new;
     }
-    return tmp;
+    return (tmp);
 }
 
-void      ft_push_ab(t_stack **a, t_stack **b)
+void       ft_push_ab(t_stack **a, t_stack **b)
 {
     t_stack *mem;
     int value;
-    if (a)
+    if(a)
     {
         value = (*a)->val;
-        //printf("=> %d\n", val);
+        //printf("%d\n", val);
         *b = ft_push(*b, value);
         *a = (*a)->next;
         //free(*a);
@@ -173,13 +173,13 @@ void      ft_push_ab(t_stack **a, t_stack **b)
 int     b_is_empty(t_stack *b)
 {
     if(!b)
-        return(1);
-    return(0);
+        return (1);
+    return (0);
 }
 
 int     stack_size(t_stack *a)
 {
-    int i;
+    int     i;
 
     i = 0;
     while (a)
@@ -189,6 +189,7 @@ int     stack_size(t_stack *a)
     }
     return (i);
 }
+
 t_op    *pushswap(int size, t_stack *a, t_stack *b)
 {
     int maxbits;
@@ -202,16 +203,16 @@ t_op    *pushswap(int size, t_stack *a, t_stack *b)
     queue = NULL;
     maxbits = 0;
     while ((size) >> maxbits != 0)
-        maxbits++;   
+        maxbits++;
     i = 0;
-    while(i < maxbits)
+    while (i < maxbits)
     {
         j = 0;
         k = 0;
-       
-        while(j < size)
+
+        while (j < size)
         {
-            if((((a->val >> i) % 2) && 1) == 1)
+            if ((((a->val >> i) %2 ) && 1 ) == 1)
             {
                 a = rotate_ab(a);
                 queue = addop(queue, "ra");
@@ -223,40 +224,224 @@ t_op    *pushswap(int size, t_stack *a, t_stack *b)
             }
             j++;
         }
-        
         while(!(b_is_empty(b)))
         {
             ft_push_ab(&b, &a);
-            queue = addop(queue, "pa");       
+            queue = addop(queue, "pa");
         }
-        i++; 
+        i++;
     }
-    return(queue);
+//     tmp = a;
+//     while (tmp)
+//     {
+//        printf("%d ", tmp->val);
+//        tmp = tmp->next; 
+//     }
+// printf("\n");
+    return (queue);
 }
 
-t_stack   *fill(t_stack *a, int *tab, int size)
+t_stack     *fill(t_stack *a, int *tab, int size)
 {
     int i;
     t_stack *tmp;
 
-    
     i = 0;
-    //printf("size %d\n",size);
-    while(i <= size)
+    //printf("size %d\n", size);
+    while (i <= size)
     {
         a = ft_push(a, tab[size]);
         size--;
     }
-// tmp = a;
-// while (a)
-//     {
-//         printf("check %d ",a->val);
-//         a = a->next;
-//     }
-//     printf("\n");
-    return(a);
+    return (a);
 }
 
+t_stack    *sort3(int *tab, int size)
+{
+    int tmp;
+    t_stack *a;
+    a = NULL;
+
+    if(tab[0] > tab[1] && tab[0] < tab[2] && tab[1] < tab[2])
+    {
+        printf("sa\n");
+        tmp = tab[0];
+        tab[0] = tab[1];
+        tab[1] = tmp;
+    }
+    else if(tab[0] > tab[1] && tab[0] > tab[2] && tab[1] > tab[2])
+    {
+        printf("sa\nrra\n");
+        tmp = tab[0];
+        tab[0] = tab[1];
+        tab[1] = tmp;
+        tmp = tab[2];
+        tab[2] = tab[1];
+        tab[1] = tab[0];
+        tab[0] = tmp;
+        
+    }
+    else if(tab[0] > tab[1] && tab[0] > tab[2] && tab[1] < tab[2])
+    {
+        printf("ra\n");
+        tmp = tab[0];
+        tab[0] = tab[1];
+        tab[1] = tab[2];
+        tab[2] = tmp;
+
+    }
+    else if(tab[0] < tab[1] && tab[0] < tab[2] && tab[1] > tab[2])
+    {
+        printf("sa\nra\n");
+        tmp = tab[0];
+        tab[0] = tab[1];
+        tab[1] = tmp;
+        tmp = tab[0];
+        tab[0] = tab[1];
+        tab[1] = tab[2];
+        tab[2] = tmp;
+    }
+    else if(tab[0] < tab[1] && tab[0] > tab[2] && tab[1] > tab[2])
+    {
+        printf("rra\n");
+        tmp = tab[2];
+        tab[2] = tab[1];
+        tab[1] = tab[0];
+        tab[0] = tmp;
+     }
+     a = fill(a, tab, size - 1);
+    return (a);
+}
+
+int     is_sorted(t_stack *a)
+{   int i;
+
+    i = 0;
+    while (a)
+    {
+        if (a->val != i)
+            return (0);
+        i++;
+        a = a->next;
+    }
+    return (1);
+}
+
+int is_max(t_stack *a)
+{   
+    t_stack *tmp;
+
+    int max;
+    max = a->val;
+    tmp = a->next;
+    while (tmp)
+    {
+        if (tmp->val > max)
+            return (0);
+        tmp = tmp->next;
+    }
+    return (0);
+}
+
+int is_min(t_stack *a)
+{   
+    t_stack *tmp;
+
+    int min;
+    min = a->val;
+    tmp = a->next;
+    while (tmp)
+    {
+        if (tmp->val < min)
+            return (0);
+        tmp = tmp->next;
+    }
+    return (1);
+}
+
+
+int     last(t_stack *a)
+{
+    t_stack *tmp;
+
+    tmp = a;
+    while (tmp->next)
+        tmp = tmp->next;
+    return (tmp->val);
+}
+
+// int     is_min(t_stack *a)
+// {
+//     t_stack *tmp;
+
+//     int min;
+//     min = a->val;
+//     tmp = a->next;
+//     while (tmp->next)
+//     {
+//         if (tmp->val < min)
+//             min = tmp->val;
+//         tmp = tmp->next;
+//     }
+//     if (tmp->val < min)
+//         min = tmp->val;
+//     if (a->val == min)
+//         return (min);
+//     return (0);
+// }
+
+t_stack    *sort5(t_stack *a, int *tab, int size)
+{
+    t_stack *b;
+    t_stack *tmp;
+
+    b = NULL;
+    b = ft_push(b, tab[0]);
+    b = ft_push(b, tab[1]);
+    printf("pb\npb\n");
+    
+    a = sort3(tab + 2, 3);
+    if (b->val < b->next->val)
+    {
+        printf("rb\n");
+        b = rotate_ab(b);
+    }
+    while (b)
+    {   //printf(" a.val %d b.val %d\n", a->val, b->val);
+        if (is_min(a) && (b->val == 4))
+        {
+            ft_push_ab(&b, &a);
+            printf("pa\n");
+            // printf(" a.val %d b.val %d\n", a->val, b->val);
+            // exit(1);
+            // if (b && b->val == 3)
+            // {
+            //     ft_push_ab(&b, &a);
+            //     printf("pa\n");
+            // }
+        }
+        else if (b->val == a->val - 1)
+        {
+            ft_push_ab(&b, &a);
+            printf("pa\n");
+        }
+        else
+        {
+            printf("ra\n");
+            a = rotate_ab(a);
+        }
+    }
+    exit(1);
+    // tmp = a;
+    // while (tmp)
+    // {printf("\n")}
+    while (is_sorted(a) == 0)
+    {
+        printf("ra\n");
+        a = rotate_ab(a);
+    }
+    return (a);
+}
 
 int     main(int argc, char **argv)
 {
@@ -268,33 +453,27 @@ int     main(int argc, char **argv)
     int     size;
     int     *tab;
 
-
     a = NULL;
     b = NULL;
-    q = NULL; 
+    q = NULL;
     i = 0;
 
     size = valid_parse(argv);
     tab = malloc(sizeof(int) *size);
     tab = file_tab(tab, argv);
     tab = indexxx(tab, size);
-    // while (i < size)
-    // {
-    //     printf("%d ", tab[i]);
-    //     i++;
-    // }
-    //printf("\n");
     a = fill(a, tab, size - 1);
-    // tmp = a;
-    // while (tmp)
-    // {
-    //     printf("%d ",tmp->val);
-    //     tmp = tmp->next;
-    // }
-    q = pushswap(size, a, b);
-    while (q)
+    if(size == 3)
+        a = sort3(tab, size);
+    else if (size == 5)
+        a = sort5(a, tab, size);
+    else 
     {
+        q = pushswap(size, a, b);
+        while (q)
+        {
         printf("%s\n", q->oper);
         q = q->next;
+        }
     }
 }
