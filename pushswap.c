@@ -209,9 +209,9 @@ t_op    *pushswap(int size, t_stack *a, t_stack *b)
         j = 0;
         k = 0;
        
-        while(j < stack_size(a))
+        while(j < size)
         {
-            if(((a->val >> i) && 1) == 1)
+            if((((a->val >> i) % 2) && 1) == 1)
             {
                 a = rotate_ab(a);
                 queue = addop(queue, "ra");
