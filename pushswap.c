@@ -390,6 +390,21 @@ int     last(t_stack *a)
 //     return (0);
 // }
 
+t_stack     *reverse_rotate(t_stack *a)
+{
+    t_stack *new;
+    t_stack *tmp;
+
+    tmp = a;
+    new = (t_stack *)malloc(sizeof(t_stack));
+    while (tmp->next->next)
+        tmp = tmp->next;
+    new->val = tmp->next->val;
+    new->next = a;
+    tmp->next = NULL; 
+    return (new);
+}
+
 t_stack    *sort5(t_stack *a, int *tab, int size)
 {
     t_stack *b;
@@ -427,18 +442,47 @@ t_stack    *sort5(t_stack *a, int *tab, int size)
         }
         else
         {
+
             printf("ra\n");
             a = rotate_ab(a);
         }
     }
-    exit(1);
-    // tmp = a;
-    // while (tmp)
-    // {printf("\n")}
+    int j=0;
+    tmp = a;
+    while (tmp)
+    {
+        if (tmp->val == 0)
+            break;
+        j++;
+        tmp = tmp->next;
+    }
     while (is_sorted(a) == 0)
     {
-        printf("ra\n");
-        a = rotate_ab(a);
+        if (j > 2)
+        {
+            // tmp = a;
+            // while (tmp)
+            // {
+            //     printf("a: %d\n", tmp->val);
+            //     tmp = tmp->next;
+            // }
+            // printf("\n");
+            printf("rra\n");
+            a = reverse_rotate(a);
+            // tmp = a;
+            // while (tmp)
+            // {
+            //     printf("a: %d\n", tmp->val);
+            //     tmp = tmp->next;
+            // }
+            // printf("\n");
+            // exit(1);
+        }
+        else
+        {
+            printf("ra\n");
+            a = rotate_ab(a);
+        }
     }
     return (a);
 }
