@@ -409,6 +409,7 @@ t_stack    *sort5(t_stack *a, int *tab, int size)
 {
     t_stack *b;
     t_stack *tmp;
+    int j;
 
     b = NULL;
     b = ft_push(b, tab[0]);
@@ -427,13 +428,6 @@ t_stack    *sort5(t_stack *a, int *tab, int size)
         {
             ft_push_ab(&b, &a);
             printf("pa\n");
-            // printf(" a.val %d b.val %d\n", a->val, b->val);
-            // exit(1);
-            // if (b && b->val == 3)
-            // {
-            //     ft_push_ab(&b, &a);
-            //     printf("pa\n");
-            // }
         }
         else if (b->val == a->val - 1)
         {
@@ -442,12 +436,36 @@ t_stack    *sort5(t_stack *a, int *tab, int size)
         }
         else
         {
-
-            printf("ra\n");
-            a = rotate_ab(a);
+            j=0;
+            if (b->val <= 3)
+            {
+                tmp = a;
+                while (tmp)
+                {
+                    if (tmp->val == b->val + 1)
+                        break;
+                    j++;
+                    tmp = tmp->next;
+                }
+                if (j > 2)
+                {
+                    printf("rra\n");
+                    a = reverse_rotate(a);
+                }
+                else
+                {
+                    printf("ra\n");
+                    a = rotate_ab(a);
+                }
+            }
+            else
+            {
+                printf("ra\n");
+                a = rotate_ab(a);
+            }
         }
     }
-    int j=0;
+    j=0;
     tmp = a;
     while (tmp)
     {
