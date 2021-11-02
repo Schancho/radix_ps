@@ -99,4 +99,5 @@ int     main(int argc, char **argv)
         a = sort5(a, tab, size);
     else 
         pushswap(size, a, b);
+    //system("leaks push_swap");
 }

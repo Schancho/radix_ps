@@ -17,30 +17,20 @@ t_stack     *ft_push(t_stack *pile, int data)
 
 t_stack     *rotate_ab(t_stack *p, char *str)
 {
+    
     t_stack *tmp;
-    t_stack *new;
-    int     val;
+    t_stack *head;
 
 	ft_putstr(str);
-    val = p->val;
     tmp = p;
-    p = p->next;
-    tmp->next = NULL;
-    free(tmp);
-    tmp = p;
-    new = (t_stack*)malloc(sizeof(t_stack));
-    if(new)
-    {
-        new->next = NULL;
-        new->val = val;
-        while (p->next)
-        {
-            p = p->next;
-        }
-        p->next = new;
-    }
-    return (tmp);
+    head = p->next;
+    while (tmp->next)
+        tmp = tmp->next;
+    p->next = NULL;
+    tmp->next = p;
+    return (head);
 }
+
 
 void       ft_push_ab(t_stack **a, t_stack **b, char *str)
 {
@@ -57,19 +47,17 @@ void       ft_push_ab(t_stack **a, t_stack **b, char *str)
     }
 }
 
+
 t_stack     *reverse_rotate(t_stack *a, char *str)
 {
-    t_stack *new;
     t_stack *tmp;
 
 	ft_putstr(str);
     tmp = a;
-    new = (t_stack *)malloc(sizeof(t_stack));
     while (tmp->next->next)
         tmp = tmp->next;
-    new->val = tmp->next->val;
-    new->next = a;
-    free(tmp->next);
+    tmp->next->next =a;
+    a = tmp->next;
     tmp->next = NULL; 
-    return (new);
+    return (a);
 }
